@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 using System;
 using System.Reflection;
@@ -48,6 +48,16 @@ public class EventBus
 				object[] paramList = new object[]{baseEvent};
 				holder.mInfo.Invoke (holder.objectRef, paramList);
 			}
+		}
+	}
+
+	public void unSubscribe (MonoBehaviour subscriber)
+	{
+
+		foreach (var key in eventsAndSubs.Keys) {
+			List<ObjectHolder> listOfObjects;
+			eventsAndSubs.TryGetValue (key, out listOfObjects);
+			listOfObjects.RemoveAll (obj => obj.objectRef == subscriber);
 		}
 	}
 
